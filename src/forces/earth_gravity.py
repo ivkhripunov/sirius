@@ -8,23 +8,23 @@ J3 = -0.0000025327
 J4 = -0.0000016196
 
 
-def central_gravity(r, t):
+def central_grav(r):
     r_norm = np.linalg.norm(r)
 
     return - MU / r_norm ** 3 * r
 
 
-def J2_gravity(r, t):
+def J2_grav(r):
     r_norm = np.linalg.norm(r)
 
     j2_const = - 3 * J2 * MU * R_earth ** 2 / (2 * r_norm ** 5)
-    j2_grav = j2_const * r * (1 - 5 * r[2] ** 2 / r_norm ** 2)
-    j2_grav[2] += 2 * j2_const
+    j2_grav = j2_const * r * (1 - 5 * (r[2] / r_norm) ** 2)
+    j2_grav[2] += 2 * j2_const * r[2]
 
     return j2_grav
 
 
-def J3_gravity(r, t):
+def J3_grav(r):
     r_norm = np.linalg.norm(r)
 
     j3_const = -5 * J3 * MU * R_earth ** 3 / (2 * r_norm ** 7)
@@ -35,12 +35,12 @@ def J3_gravity(r, t):
     ])
 
 
-def J3_gravity(r, t):
+def J4_grav(r):
     r_norm = np.linalg.norm(r)
 
     j4_const = 15 * J4 * MU * R_earth ** 4 / (8 * r_norm ** 7)
     j4_grav = j4_const * r * (
-            1 - 14 * r[2] ** 2 / r_norm ** 2 + 21 * r[2] ** 4 / r_norm ** 4),
-    j4_grav[2] += j4_const * (4 - 38 * r[2] ** 2 / (3 * r_norm ** 2))
+            1 - 14 * r[2] ** 2 / r_norm ** 2 + 21 * r[2] ** 4 / r_norm ** 4)
+    j4_grav[2] += j4_const * r[2] * (4 - 38 * r[2] ** 2 / (3 * r_norm ** 2))
 
     return j4_grav
