@@ -12,12 +12,12 @@ def rv_to_kepler(r, v):
 
     sin_i = np.sqrt(n_orb[0] ** 2 + n_orb[1] ** 2)
     cos_i = n_orb[2]
-    i = np.atan2(sin_i, cos_i)
+    i = np.arctan2(sin_i, cos_i)
 
     z = np.array([0, 0, 1])
     N = np.cross(z, L)
 
-    Omega = np.atan2(N[1], N[0]) if i != 0 else 0
+    Omega = np.arctan2(N[1], N[0]) if i != 0 else 0
 
     v2 = np.dot(v, v)
     e = ((v2 - MU / r_norm) * r - np.dot(r, v) * v) / MU
@@ -30,7 +30,7 @@ def rv_to_kepler(r, v):
 
     cos_w = np.dot(e_1, d_1)
     sin_w = np.dot(e_1, d_2)
-    w = np.atan2(sin_w, cos_w)
+    w = np.arctan2(sin_w, cos_w)
 
     a = - MU / 2 / (v2 / 2 - MU / r_norm)
 
@@ -38,6 +38,6 @@ def rv_to_kepler(r, v):
 
     cos_nu = np.dot(e_1, r)
     sin_nu = np.dot(e_2, r)
-    nu = np.atan2(sin_nu, cos_nu)
+    nu = np.arctan2(sin_nu, cos_nu)
 
     return np.array([a, e_norm, i, w, Omega, nu])
